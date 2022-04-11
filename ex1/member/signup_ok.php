@@ -1,5 +1,5 @@
 <?php
-    include "./API/dbcon.php";
+    include "../API/dbcon.php";
 
 
     $userid=$_POST["userid"];
