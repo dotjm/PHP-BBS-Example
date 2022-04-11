@@ -4,7 +4,7 @@
     // $result = $mysqli->query("select * from board") or die("query error => ".$mysqli->error);
     // $result = $mysqli->query("select * from board where status=1 order by bid desc") or die("query error => ".$mysqli->error);
     $search_where = "";
-    $search_keyword = null;
+    $search_keyword = "";
     
     if(isset($_GET['search_keyword'])){
         $search_keyword = $_GET['search_keyword'];
