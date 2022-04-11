@@ -31,3 +31,12 @@ CREATE TABLE `memo` (
   `regdate` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`memoid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `recommend` (
+  `reid` int(11) NOT NULL AUTO_INCREMENT,
+  `bid` int(11) DEFAULT NULL,
+  `userid` varchar(100) DEFAULT NULL,
+  `type` varchar(10) DEFAULT NULL,
+  `regdate` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`reid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
