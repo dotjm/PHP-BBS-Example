@@ -3,7 +3,7 @@
     include "./API/dbcon.php";
 
     if(!$_SESSION['UID']){
-        echo "<script>alert('회원 전용 게시판입니다.');location.href='/index.php';</script>";
+        echo "<script>alert('회원 전용 게시판입니다.');location.href='./index.php';</script>";
         exit;
     }
 
@@ -14,7 +14,7 @@
         $rs = $result->fetch_object();
 
         if($rs->userid!=$_SESSION['UID']){
-            echo "<script>alert('본인 글이 아니면 삭제할 수 없습니다.');location.href='/';</script>";
+            echo "<script>alert('본인 글이 아니면 삭제할 수 없습니다.');location.href='./';</script>";
             exit;
         }
 
@@ -27,7 +27,7 @@
 
 
     if($result){
-        echo "<script>alert('삭제했습니다.');location.href='/index.php';</script>";
+        echo "<script>alert('삭제했습니다.');location.href='./index.php';</script>";
         exit;
     }else{
         echo "<script>alert('글삭제에 실패했습니다.');history.back();</script>";
