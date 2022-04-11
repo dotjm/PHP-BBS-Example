@@ -10,6 +10,7 @@
 
     $query="select * from memo where status=1 and bid=".$rs->bid." order by memoid asc";
     $memo_result = $mysqli->query($query) or die("query error => ".$mysqli->error);
+    $memoArray = null;
     while($mrs = $memo_result->fetch_object()){
         $memoArray[]=$mrs;
     }
@@ -79,7 +80,8 @@
         </div>
       </div> -->
       <?php
-        foreach($memoArray as $ma){
+        if(!empty($memoArray)){
+          foreach($memoArray as $ma){
       ?>
         <div class="card mb-4" style="max-width: 100%;margin-top:20px;">
           <div class="row g-0">
@@ -91,7 +93,10 @@
             </div>
           </div>
         </div>
-      <?php }?>
+      <?php 
+          }
+        }
+      ?>
     </div>
 
     <script>
