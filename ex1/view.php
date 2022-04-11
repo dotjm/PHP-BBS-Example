@@ -50,7 +50,7 @@
           <?php echo $rs->content;?>
         </p>
         <div style="text-align:center;">
-          <button type="button" class="btn btn-lg btn-primary" id="like_button">추천&nbsp;<span id="like"><?php echo number_format($recommend['like']);?></span></button>
+          <button type="button" class="btn btn-lg btn-primary" id="like_button">추천&nbsp;<span id="like"><?php if(!empty($recommend)){ echo number_format($recommend['like']); } else {echo 0;}?></span></button>
           <button type="button" class="btn btn-lg btn-warning" id="hate_button">반대&nbsp;<span id="hate"><?php echo number_format($recommend['hate']);?></span></button>
         </div>
         <hr>
