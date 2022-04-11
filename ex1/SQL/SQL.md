@@ -20,3 +20,14 @@ CREATE TABLE `members` (
   `regdate` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`mid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `memo` (
+  `memoid` int(11) NOT NULL AUTO_INCREMENT,
+  `bid` int(11) DEFAULT NULL,
+  `pid` int(11) DEFAULT NULL,
+  `userid` varchar(100) DEFAULT NULL,
+  `memo` varchar(300) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT 1,
+  `regdate` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`memoid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
