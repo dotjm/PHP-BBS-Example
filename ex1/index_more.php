@@ -17,7 +17,8 @@
     $startLimit = ($pageNumber-1)*$pageCount;//쿼리의 limit 시작 부분
     $firstPageNumber  = $_GET['firstPageNumber']??1;
 
-    $sql = "select * from board where 1=1";
+    // $sql = "select * from board where 1=1";
+    $sql = "select b.*, if((now() - regdate)<=86400,1,0) as newid from board b where 1=1";
     $sql .= " and status=1";
     $sql .= $search_where;
     $order = " order by ifnull(parent_id, bid) desc, bid asc";
@@ -93,6 +94,9 @@
                     }
                 ?>
                 <a href="./view.php?bid=<?php echo $r->bid;?>"><?php echo $r->subject;?></a>
+                <?php if($r->newid){?>
+                    <span class="badge bg-danger">New</span>
+                <?php }?>
             </td>
             <td><?php echo $r->regdate;?></td>
             </tr>
