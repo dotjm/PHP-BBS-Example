@@ -1,5 +1,5 @@
 <?php session_start();
-include "./spi/dbcon.php";
+include "./API/dbcon.php";
 // ini_set( 'display_errors', '0' );
 
 if(!$_SESSION['UID']){
@@ -15,10 +15,14 @@ $type = $_POST['type'];
 $resultcheck = $mysqli->query("select reid from recommend where userid='".$_SESSION['UID']."' and bid=".$bid) or die("query error => ".$mysqli->error);//동일한 게시물에 대해 추천이나 반대를 한 기록이 있는지 확인
 $rsc = $resultcheck->fetch_object();
 
-if($rsc->reid){
-    $retun_data = array("result"=>"check");
-    echo json_encode($retun_data);
-    exit;
+// print_r($rsc);
+
+if(isset($rsc)){
+    if (isset($rsc->reid)) {
+        $retun_data = array("result"=>"check");
+        echo json_encode($retun_data);
+        exit;
+    }
 }
 
 $sql="INSERT INTO recommend

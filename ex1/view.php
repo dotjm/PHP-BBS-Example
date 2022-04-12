@@ -50,8 +50,8 @@
           <?php echo $rs->content;?>
         </p>
         <div style="text-align:center;">
-          <button type="button" class="btn btn-lg btn-primary" id="like_button">추천&nbsp;<span id="like"><?php if(!empty($recommend)){ echo number_format($recommend['like']); } else {echo 0;} ?></span></button>
-          <button type="button" class="btn btn-lg btn-warning" id="hate_button">반대&nbsp;<span id="hate"><?php if(!empty($recommend)){ echo number_format($recommend['hate']); } else {echo 0;} ?></span></button>
+          <button type="button" class="btn btn-lg btn-primary" id="like_button">추천&nbsp;<span id="like"><?php if(!empty($recommend) and isset($recommend['like'])){ echo number_format($recommend['like']); } else {echo 0;} ?></span></button>
+          <button type="button" class="btn btn-lg btn-warning" id="hate_button">반대&nbsp;<span id="hate"><?php if(!empty($recommend) and isset($recommend['hate'])){ echo number_format($recommend['hate']); } else {echo 0;} ?></span></button>
         </div>
         <hr>
       </article>
@@ -118,189 +118,189 @@
             return false;
           }
           
-            var data = {
-                type : 'like' ,
-                bid : <?php echo $bid;?>
-            };
-                $.ajax({
-                    async : false ,
-                    type : 'post' ,
-                    url : 'like_hate.php' ,
-                    data  : data ,
-                    dataType : 'json' ,
-                    error : function() {} ,
-                    success : function(return_data) {
-                      if(return_data.result=="member"){
-                        alert('로그인 하십시오.');
-                        return;
-                      }else if(return_data.result=="check"){
-                        alert('이미 추천이나 반대를 하셨습니다.');
-                        return;
-                      }else if(return_data.result=="no"){
-                        alert('다시한번 시도해주십시오.');
-                        return;
-                      }else{
-                        $("#like").text(return_data.cnt);
-                      }
-                    }
-                });
+          var data = {
+              type : 'like' ,
+              bid : <?php echo $bid;?>
+          };
+          $.ajax({
+              async : false ,
+              type : 'post' ,
+              url : 'like_hate.php' ,
+              data  : data ,
+              dataType : 'json' ,
+              error : function() {} ,
+              success : function(return_data) {
+                if(return_data.result=="member"){
+                  alert('로그인 하십시오.');
+                  return;
+                }else if(return_data.result=="check"){
+                  alert('이미 추천이나 반대를 하셨습니다.');
+                  return;
+                }else if(return_data.result=="no"){
+                  alert('다시한번 시도해주십시오.');
+                  return;
+                }else{
+                  $("#like").text(return_data.cnt);
+                }
+              }
           });
+        });
 
-          $("#hate_button").click(function () {
+        $("#hate_button").click(function () {
 
           if(!confirm('반대하시겠습니까?')){
             return false;
           }
           
-            var data = {
-                type : 'hate' ,
-                bid : <?php echo $bid;?>
-            };
-                $.ajax({
-                    async : false ,
-                    type : 'post' ,
-                    url : 'like_hate.php' ,
-                    data  : data ,
-                    dataType : 'json' ,
-                    error : function() {} ,
-                    success : function(return_data) {
-                      if(return_data.result=="member"){
-                        alert('로그인 하십시오.');
-                        return;
-                      }else if(return_data.result=="check"){
-                        alert('이미 추천이나 반대를 하셨습니다.');
-                        return;
-                      }else if(return_data.result=="no"){
-                        alert('다시한번 시도해주십시오.');
-                        return;
-                      }else{
-                        $("#hate").text(return_data.cnt);
-                      }
-                    }
-                });
+          var data = {
+              type : 'hate' ,
+              bid : <?php echo $bid;?>
+          };
+          $.ajax({
+              async : false ,
+              type : 'post' ,
+              url : 'like_hate.php' ,
+              data  : data ,
+              dataType : 'json' ,
+              error : function() {} ,
+              success : function(return_data) {
+                if(return_data.result=="member"){
+                  alert('로그인 하십시오.');
+                  return;
+                }else if(return_data.result=="check"){
+                  alert('이미 추천이나 반대를 하셨습니다.');
+                  return;
+                }else if(return_data.result=="no"){
+                  alert('다시한번 시도해주십시오.');
+                  return;
+                }else{
+                  $("#hate").text(return_data.cnt);
+                }
+              }
           });
+        });
       
 
       $("#memo_button").click(function () {
       
-            var data = {
-                memo : $('#memo').val() ,
-                bid : <?php echo $bid;?>
-            };
-                $.ajax({
-                    async : false ,
-                    type : 'post' ,
-                    url : 'memo_write.php' ,
-                    data  : data ,
-                    dataType : 'html' ,
-                    error : function() {} ,
-                    success : function(return_data) {
-                      if(return_data=="member"){
-                        alert('로그인 하십시오.');
-                        return;
-                      }else{
-                        $("#memo_place").append(return_data);
-                      }
-                    }
-            });
+        var data = {
+            memo : $('#memo').val() ,
+            bid : <?php echo $bid;?>
+        };
+        $.ajax({
+          async : false ,
+          type : 'post' ,
+          url : 'memo_write.php' ,
+          data  : data ,
+          dataType : 'html' ,
+          error : function() {} ,
+          success : function(return_data) {
+            if(return_data=="member"){
+              alert('로그인 하십시오.');
+              return;
+            }else{
+              $("#memo_place").append(return_data);
+            }
+          }
+        });
+      });
+
+      function memo_del(memoid){
+
+        if(!confirm('삭제하시겠습니까?')){
+          return false;
+        }
+
+        var data = {
+            memoid : memoid
+        };
+        $.ajax({
+            async : false ,
+            type : 'post' ,
+            url : 'memo_delete.php' ,
+            data  : data ,
+            dataType : 'json' ,
+            error : function() {} ,
+            success : function(return_data) {
+              if(return_data.result=="member"){
+                alert('로그인 하십시오.');
+                return;
+              }else if(return_data.result=="my"){
+                alert('본인이 작성한 글만 삭제할 수 있습니다.');
+                return;
+              }else if(return_data.result=="no"){
+                alert('삭제하지 못했습니다. 관리자에게 문의하십시오.');
+                return;
+              }else{
+                $("#memo_"+memoid).hide();
+              }
+            }
         });
 
-        function memo_del(memoid){
+      }
 
-          if(!confirm('삭제하시겠습니까?')){
-            return false;
+      function memo_modi(memoid){
+
+        var data = {
+            memoid : memoid
+        };
+
+        $.ajax({
+          async : false ,
+          type : 'post' ,
+          url : 'memo_modify.php' ,
+          data  : data ,
+          dataType : 'html' ,
+          error : function() {} ,
+          success : function(return_data) {
+            if(return_data=="member"){
+              alert('로그인 하십시오.');
+              return;
+            }else if(return_data=="my"){
+              alert('본인이 작성한 글만 수정할 수 있습니다.');
+              return;
+            }else if(return_data=="no"){
+              alert('수정하지 못했습니다. 관리자에게 문의하십시오.');
+              return;
+            }else{
+              $("#memo_"+memoid).html(return_data);
+            }
           }
+        });
 
-          var data = {
-              memoid : memoid
-          };
-              $.ajax({
-                  async : false ,
-                  type : 'post' ,
-                  url : 'memo_delete.php' ,
-                  data  : data ,
-                  dataType : 'json' ,
-                  error : function() {} ,
-                  success : function(return_data) {
-                    if(return_data.result=="member"){
-                      alert('로그인 하십시오.');
-                      return;
-                    }else if(return_data.result=="my"){
-                      alert('본인이 작성한 글만 삭제할 수 있습니다.');
-                      return;
-                    }else if(return_data.result=="no"){
-                      alert('삭제하지 못했습니다. 관리자에게 문의하십시오.');
-                      return;
-                    }else{
-                      $("#memo_"+memoid).hide();
-                    }
-                  }
-          });
+      }
 
+      function memo_modify(memoid){
+
+        var data = {
+            memoid : memoid,
+            memo : $('#memo_text_'+memoid).val()
+        };
+
+        $.ajax({
+          async : false ,
+          type : 'post' ,
+          url : 'memo_modify_update.php' ,
+          data  : data ,
+          dataType : 'html' ,
+          error : function() {} ,
+          success : function(return_data) {
+            if(return_data=="member"){
+              alert('로그인 하십시오.');
+              return;
+            }else if(return_data=="my"){
+              alert('본인이 작성한 글만 수정할 수 있습니다.');
+              return;
+            }else if(return_data=="no"){
+              alert('수정하지 못했습니다. 관리자에게 문의하십시오.');
+              return;
+            }else{
+              $("#memo_"+memoid).html(return_data);
+            }
           }
+        });
 
-          function memo_modi(memoid){
-
-          var data = {
-              memoid : memoid
-          };
-
-          $.ajax({
-                async : false ,
-                type : 'post' ,
-                url : 'memo_modify.php' ,
-                data  : data ,
-                dataType : 'html' ,
-                error : function() {} ,
-                success : function(return_data) {
-                  if(return_data=="member"){
-                    alert('로그인 하십시오.');
-                    return;
-                  }else if(return_data=="my"){
-                    alert('본인이 작성한 글만 수정할 수 있습니다.');
-                    return;
-                  }else if(return_data=="no"){
-                    alert('수정하지 못했습니다. 관리자에게 문의하십시오.');
-                    return;
-                  }else{
-                    $("#memo_"+memoid).html(return_data);
-                  }
-                }
-          });
-
-          }
-
-          function memo_modify(memoid){
-
-          var data = {
-              memoid : memoid,
-              memo : $('#memo_text_'+memoid).val()
-          };
-
-          $.ajax({
-                async : false ,
-                type : 'post' ,
-                url : 'memo_modify_update.php' ,
-                data  : data ,
-                dataType : 'html' ,
-                error : function() {} ,
-                success : function(return_data) {
-                  if(return_data=="member"){
-                    alert('로그인 하십시오.');
-                    return;
-                  }else if(return_data=="my"){
-                    alert('본인이 작성한 글만 수정할 수 있습니다.');
-                    return;
-                  }else if(return_data=="no"){
-                    alert('수정하지 못했습니다. 관리자에게 문의하십시오.');
-                    return;
-                  }else{
-                    $("#memo_"+memoid).html(return_data);
-                  }
-                }
-          });
-
-          }
+      }
     </script>
 
   </body>
