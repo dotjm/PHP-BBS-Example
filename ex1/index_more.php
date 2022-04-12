@@ -18,7 +18,11 @@
     $firstPageNumber  = $_GET['firstPageNumber']??1;
 
     // $sql = "select * from board where 1=1";
-    $sql = "select b.*, if((now() - regdate)<=86400,1,0) as newid from board b where 1=1";
+    // $sql = "select b.*, if((now() - regdate)<=86400,1,0) as newid from board b where 1=1";
+    $sql = "select b.*, if((now() - regdate)<=86400,1,0) as newid
+    ,(select count(*) from memo m where m.status=1 and m.bid=b.bid) as memocnt
+    ,(select m.regdate from memo m where m.status=1 and m.bid=b.bid order by m.memoid desc limit 1) as memodate
+    from board b where 1=1";
     $sql .= " and status=1";
     $sql .= $search_where;
     $order = " order by ifnull(parent_id, bid) desc, bid asc";
@@ -94,6 +98,11 @@
                     }
                 ?>
                 <a href="./view.php?bid=<?php echo $r->bid;?>"><?php echo $r->subject;?></a>
+                <?php if($r->memocnt){?>
+                    <span <?php if((time()-strtotime($r->memodate))<=86400){ echo "style='color:red;'";}?>>
+                        [<?php echo $r->memocnt;?>]
+                    </span>
+                <?php }?>
                 <?php if($r->newid){?>
                     <span class="badge bg-danger">New</span>
                 <?php }?>
